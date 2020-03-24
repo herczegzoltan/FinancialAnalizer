@@ -14,20 +14,6 @@ namespace FinancialAnalizer
         static void Main(string[] args)
         {
 
-         
-            //string str = "04/06/2018";
-
-            //string month = str.Substring(6, 4);
-
-            //int a = Int16.Parse(month);
-            //Console.WriteLine(a);
-            
-            
-            //int ystr = DateTime.Parse(str).Year;
-
-            //int mstr = DateTime.Parse(str).Day;
-
-
             List<Record> Records = new List<Record>(); 
             using (var reader = new StreamReader(@"C:\Users\Herczeg Zoltán\Desktop\testfile.csv"))
             {
@@ -97,8 +83,29 @@ namespace FinancialAnalizer
                 Console.Write("Description:" + item.Description);
                 Console.WriteLine("\n---------------------------------------------------------");
             }
+
+            var bar = Records.Select(z => new Record { Year = z.Year, Month = z.Month, Category = z.Category, Amount = z.Amount, Description = z.Description })
+
+             .GroupBy(y => new { y.Year, y.Month, y.Category})
+
+             .Select(x => new Record
+             {
+                 Year = x.Key.Year
+                ,
+                 Month = x.Key.Month
+                ,
+                 Category = x.Key.Category,
+
+                 
+                 Amount = x.Sum(a => a.Amount)
+             });
+
+            foreach (var i in bar)
+            {
+                Console.Write(i.Year + ", " + i.Month + ", " + i.Category + ", " + i.Amount.ToString());
+                Console.WriteLine("\n--------------------------");
+            }
         }
 
-        
     }
 }
