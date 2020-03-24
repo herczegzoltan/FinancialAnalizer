@@ -8,7 +8,11 @@ namespace FinancialAnalizer.Model
 {
     public class Record
     {
-        public int MyProperty { get; set; }
+        public int Year { get; set; }
+        public int Month { get; set; }
 
+        public double Amount { get; set; }
+
+        public string Description { get; set; }
     }
 }
