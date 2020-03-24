@@ -1,4 +1,5 @@
-﻿using FinancialAnalizer.Model;
+﻿using FinancialAnalizer.Extension;
+using FinancialAnalizer.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -37,11 +38,16 @@ namespace FinancialAnalizer
                     var line = reader.ReadLine();
                     var values = line.Split(',');
 
-                    int ystr = DateTime.Parse(values[0]).Year;
+                    Records.Add(new Record()
+                    {
+                        Year = DateTime.Parse(values[0]).Year,
+                        Month = DateTime.Parse(values[0]).Day,
+                        Category = values[2],
+                        Amount = values[3].StringToDoubleWithReplace(),
 
-                    int mstr = DateTime.Parse(values[0]).Day;
 
-                    
+
+                    });
                     //Console.WriteLine(values[0]);
                     //listA.Add(values[0]);
                     //listB.Add(values[1]);
