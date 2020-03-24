@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,12 +11,9 @@ namespace FinancialAnalizer.Extension
     {
         public static double StringToDoubleWithReplace(this String str)
         {
-
-
-
-
-            return 1.22;
+            str = str.Replace(",", "");
+            str = str.Replace("\"", "");
+            return double.Parse(str, CultureInfo.InvariantCulture);
         }
-
     }
 }

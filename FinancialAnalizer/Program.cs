@@ -14,14 +14,22 @@ namespace FinancialAnalizer
         static void Main(string[] args)
         {
 
+         
             //string str = "04/06/2018";
+
+            //string month = str.Substring(6, 4);
+
+            //int a = Int16.Parse(month);
+            //Console.WriteLine(a);
+            
+            
             //int ystr = DateTime.Parse(str).Year;
 
             //int mstr = DateTime.Parse(str).Day;
 
 
             List<Record> Records = new List<Record>(); 
-            using (var reader = new StreamReader(@"C:\Users\Herczeg Zoltán\Google Drive\input.csv"))
+            using (var reader = new StreamReader(@"C:\Users\Herczeg Zoltán\Desktop\testfile.csv"))
             {
 
                 //values[0] -> date "04/06/2018";
@@ -38,26 +46,59 @@ namespace FinancialAnalizer
                     var line = reader.ReadLine();
                     var values = line.Split(',');
 
-                    Records.Add(new Record()
+                    if (values[0] != "date")
                     {
-                        Year = DateTime.Parse(values[0]).Year,
-                        Month = DateTime.Parse(values[0]).Day,
-                        Category = values[2],
-                        Amount = values[3].StringToDoubleWithReplace(),
-
-
-
-                    });
-                    //Console.WriteLine(values[0]);
-                    //listA.Add(values[0]);
-                    //listB.Add(values[1]);
+                        if (values[2] == "Salary")
+                        {
+                            if (values[4]=="EUR")
+                            {
+                                Records.Add(new Record()
+                                {
+                                    Year = Int16.Parse(values[0].Substring(6, 4)),
+                                    Month = Int16.Parse(values[0].Substring(3, 2)),
+                                    Category = values[2],
+                                    Amount = values[3].StringToDoubleWithReplace(),
+                                    Description = values[7]
+                                });
+                            }
+                            else
+                            {
+                                Records.Add(new Record()
+                                {
+                                    Year = Int16.Parse(values[0].Substring(6, 4)),
+                                    Month = Int16.Parse(values[0].Substring(3, 2)),
+                                    Category = values[2],
+                                    Amount = (values[3] + values[4]).StringToDoubleWithReplace(),
+                                    Description = values[9]
+                                });
+                            }
+                        }
+                        else
+                        {
+                            Records.Add(new Record()
+                            {
+                                Year = Int16.Parse(values[0].Substring(6, 4)),
+                                Month = Int16.Parse(values[0].Substring(3, 2)),
+                                Category = values[2],
+                                Amount = values[3].StringToDoubleWithReplace(),
+                                Description = values[7]
+                            });
+                        }
+                    }
                 }
             }
 
             foreach (var item in Records)
             {
-                Console.WriteLine();
+                Console.Write("Year:" + item.Year + "\t ");
+                Console.Write("Month:" + item.Month + "\t ");
+                Console.Write("Category:" + item.Category + "\t ");
+                Console.Write("Amount:" + item.Amount + "\t ");
+                Console.Write("Description:" + item.Description);
+                Console.WriteLine("\n---------------------------------------------------------");
             }
         }
+
+        
     }
 }
